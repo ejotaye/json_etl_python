@@ -46,4 +46,25 @@ if __name__ == '__main__':
     # y verifique si los primeros usuarios (mirando la página a ojo)
     # los datos recolectados son correctos.
 
-    print("terminamos")
+    response = requests.get("https://jsonplaceholder.typicode.com/todos")
+    data = response.json()
+
+    lista_user = [x.get("userId") for x in data if x.get("completed")]
+    lista_suma = [lista_user.count(x) for x in lista_user]  
+    cantidad = [lista_suma[i] for i in range(len(lista_user)) if (lista_user[i-1] != lista_user[i])]
+    lista_id = list(set(lista_user))
+
+
+    fig = plt.figure()
+    fig.suptitle('LIBROS COMPLETADOS', fontsize=14,)
+    ax = fig.add_subplot()
+    
+    ax.bar(lista_id, cantidad)
+    ax.set_ylabel("Títulos")
+    ax.set_xlabel("User ID")
+    ax.set_facecolor('whitesmoke')
+   
+    ax.grid()
+    plt.show()
+    
+    print("terminamos")    
